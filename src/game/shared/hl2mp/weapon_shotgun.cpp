@@ -593,6 +593,11 @@ void CWeaponShotgun::ItemHolsterFrame( void )
 	if ( GetOwner()->GetActiveWeapon() == this )
 		return;
 
+	// Stop reloading when the weapon is changed.
+	// Fix to the phys_swap bug where the shotgun is looping the reloading animation until the player shoots with it.
+	if (m_bInReload)
+		m_bInReload = false;
+
 	// If it's been longer than three seconds, reload
 	if ( ( gpGlobals->curtime - m_flHolsterTime ) > sk_auto_reload_time.GetFloat() )
 	{
